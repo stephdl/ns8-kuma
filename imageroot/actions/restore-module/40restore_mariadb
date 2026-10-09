@@ -24,6 +24,8 @@ cat - >initdb.d/zz_restore.sh <<'EOS'
 docker_temp_server_stop
 exit 0
 EOS
+# The dump is private to the module user, the mysql user of the container must read it
+chmod -R a+rX initdb.d
 
 podman run --rm --interactive --env-file database.env \
     --volume ./initdb.d:/docker-entrypoint-initdb.d:z \
