@@ -1,9 +1,14 @@
 {
   "name": "Uptime Kuma",
   "description": {
-    "en": "Self-hosted monitoring for websites, ports, mail servers and certificates, with a MariaDB database and email alerts through the cluster smarthost.",
-    "fr": "Supervision auto-hébergée des sites web, ports, serveurs de messagerie et certificats, avec une base MariaDB et des alertes par email via le smarthost du cluster.",
-    "it": "Monitoraggio self-hosted di siti web, porte, server di posta e certificati, con un database MariaDB e avvisi email tramite lo smarthost del cluster."
+    "en": "Self-hosted monitoring for websites, services and certificates, with email alerts.",
+    "fr": "Supervision auto-hébergée des sites web, services et certificats, avec alertes par email.",
+    "it": "Monitoraggio self-hosted di siti web, servizi e certificati, con avvisi email.",
+    "de": "Selbst gehostetes Monitoring für Websites, Dienste und Zertifikate, mit E-Mail-Warnungen.",
+    "es": "Monitorización autoalojada de sitios web, servicios y certificados, con alertas por correo.",
+    "pt": "Monitorização auto-hospedada de sites, serviços e certificados, com alertas por email.",
+    "pt_BR": "Monitoramento auto-hospedado de sites, serviços e certificados, com alertas por e-mail.",
+    "eu": "Webguneen, zerbitzuen eta ziurtagirien monitorizazio auto-ostatatua, posta bidezko alertekin."
   },
   "categories": [
     "monitoring"
