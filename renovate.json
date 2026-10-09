@@ -2,5 +2,14 @@
     "$schema": "https://docs.renovatebot.com/renovate-schema.json",
     "extends": [
         "local>NethServer/.github:ns8-automerge"
+    ],
+    "packageRules": [
+        {
+            "description": "Stay on the MariaDB 11.4 LTS branch, a major upgrade needs a dump and restore",
+            "matchDepNames": [
+                "mariadb"
+            ],
+            "allowedVersions": "/^11\\.4\\./"
+        }
     ]
 }

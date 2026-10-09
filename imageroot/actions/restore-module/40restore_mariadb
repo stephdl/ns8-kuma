@@ -10,8 +10,10 @@ set -e
 # Redirect any output to the journal (stderr)
 exec 1>&2
 
+# Without the dump the module would start on an empty database
 if [[ ! -f kuma.sql ]]; then
-    exit 0
+    echo "kuma.sql is missing from the backup, cannot restore the database" 1>&2
+    exit 1
 fi
 
 # MariaDB loads initdb.d only into an empty data directory

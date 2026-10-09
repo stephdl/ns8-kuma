@@ -1,57 +1,98 @@
 {
-    "common": {
-        "required": "Obbligatorio",
-        "processing": "Elaborazione in corso...",
-        "work_in_progress": "In lavorazione"
-    },
-    "status": {
-        "node": "Nodo",
-        "services": "Servizio | Servizi",
-        "no_volumes": "Nessun volume",
-        "title": "Stato",
-        "name": "Nome",
-        "size": "Dimensione",
-        "created": "Creato",
-        "no_services": "Nessun servizio",
-        "no_images": "Nessuna immagine",
-        "app_images": "Immagine app|Immagini app",
-        "app_instance": "Istanza app",
-        "app_volumes": "Volume app|Volumi app",
-        "installation_node": "Nodo",
-        "mount": "Percorso di mount"
-    },
-    "settings": {
-        "save": "Salva",
-        "title": "Impostazioni",
-        "configure_instance": "Configura {instance}",
-        "test_field": "Campo di test"
-    },
-    "error": {
-        "error": "Errore",
-        "404": "Risorsa non trovata",
-        "validation_error": "Errore di validazione",
-        "network_error": "Errore di rete",
-        "cannot_retrieve_installed_modules": "Impossibile elencare moduli installati",
-        "cannot_retrieve_module_info": "Impossibile recuperare info modulo",
-        "network_timeout": "Timeout di rete",
-        "generic_error": "Qualcosa è andato storto",
-        "401": "Autenticazione non valida",
-        "403": "Operazione non autorizzata"
-    },
-    "action": {
-        "configure-module": "Configura modulo",
-        "get-configuration": "Visualizza configurazione",
-        "get-status": "Visualizza stato",
-        "get-module-info": "Visualizza info modulo",
-        "get-name": "Visualizza nome",
-        "list-backup-repositories": "Elenca repository di backup",
-        "list-backups": "Elenca backup",
-        "list-installed-modules": "Elenco moduli installati"
-    },
-    "task": {
-        "cannot_create_task": "Impossibile eseguire task {action}"
-    },
-    "about": {
-        "title": "Informazioni"
-    }
+  "common": {
+    "required": "Obbligatorio",
+    "work_in_progress": "In lavorazione",
+    "processing": "Elaborazione in corso..."
+  },
+  "status": {
+    "title": "Stato",
+    "app_instance": "Istanza app",
+    "services": "Servizio | Servizi",
+    "app_images": "Immagine app|Immagini app",
+    "app_volumes": "Volume app|Volumi app",
+    "installation_node": "Nodo",
+    "node": "Nodo",
+    "name": "Nome",
+    "size": "Dimensione",
+    "created": "Creato",
+    "mount": "Percorso di mount",
+    "no_services": "Nessun servizio",
+    "no_images": "Nessuna immagine",
+    "no_volumes": "Nessun volume",
+    "kuma_webapp": "Uptime Kuma",
+    "not_configured": "Non configurato",
+    "open_webapp": "Apri Uptime Kuma",
+    "configure": "Configura",
+    "application": "Applicazione",
+    "restart_application": "Riavvia applicazione",
+    "restart_module_warning": "Vuoi davvero riavviare {name}? Il servizio sarà brevemente non disponibile durante il riavvio.",
+    "go_to_node_details": "Vai ai dettagli del nodo",
+    "failed_services": "Servizi in errore",
+    "all_services_running": "Tutti i servizi sono in esecuzione",
+    "search_images": "Cerca immagini",
+    "search_volumes": "Cerca volumi"
+  },
+  "settings": {
+    "title": "Impostazioni",
+    "configure_instance": "Configura {instance}",
+    "save": "Salva",
+    "kuma_fqdn": "Nome host di Uptime Kuma (FQDN)",
+    "lets_encrypt": "Richiedi certificato Let's Encrypt",
+    "enabled": "Abilitato",
+    "disabled": "Disabilitato",
+    "advanced": "Avanzate",
+    "configuring": "Configurazione in corso",
+    "instance_configuration": "Configura Uptime Kuma",
+    "domain_already_used_in_traefik": "Dominio già usato in Traefik",
+    "host_pattern": "Deve essere un nome di dominio completo valido",
+    "host_format": "Deve essere un nome di dominio completo valido",
+    "admin_title": "Account amministratore",
+    "admin_description": "Crea l'amministratore di Uptime Kuma.",
+    "admin_username": "Nome utente amministratore",
+    "admin_password": "Password amministratore",
+    "admin_password_confirm": "Conferma password amministratore",
+    "admin_password_helper": "Almeno 8 caratteri con minuscola, maiuscola, numero e simbolo",
+    "admin_password_too_weak": "Password troppo debole",
+    "admin_password_mismatch": "Le password non corrispondono",
+    "smtp_enabled": "Invia gli avvisi tramite lo smarthost del cluster",
+    "smtp_enabled_tooltip": "Uptime Kuma riceve una notifica email predefinita chiamata \"NethServer smarthost\". Segue le impostazioni dello smarthost del cluster.",
+    "go_to_email_notifications": "Vai alle notifiche email",
+    "smarthost_not_configured": "Nessuno smarthost configurato",
+    "smarthost_not_configured_description": "Configura uno smarthost nelle notifiche email del cluster per ricevere gli avvisi di Uptime Kuma via email.",
+    "notification_emails": "Email dei destinatari degli avvisi",
+    "notification_emails_helper": "Un indirizzo email per riga",
+    "invalid_email": "Indirizzo email non valido: {email}",
+    "admin_configured": "Amministratore già creato",
+    "admin_configured_description": "Modifica nome utente e password dell'amministratore dalla pagina web di Uptime Kuma."
+  },
+  "about": {
+    "title": "Informazioni"
+  },
+  "task": {
+    "cannot_create_task": "Impossibile eseguire task {action}"
+  },
+  "action": {
+    "get-status": "Visualizza stato",
+    "get-configuration": "Visualizza configurazione",
+    "configure-module": "Configura modulo",
+    "get-module-info": "Visualizza info modulo",
+    "get-name": "Visualizza nome",
+    "list-backup-repositories": "Elenca repository di backup",
+    "list-backups": "Elenca backup",
+    "list-installed-modules": "Elenco moduli installati",
+    "restart-module": "Riavvia modulo"
+  },
+  "error": {
+    "error": "Errore",
+    "generic_error": "Qualcosa è andato storto",
+    "validation_error": "Errore di validazione",
+    "network_error": "Errore di rete",
+    "network_timeout": "Timeout di rete",
+    "401": "Autenticazione non valida",
+    "403": "Operazione non autorizzata",
+    "404": "Risorsa non trovata",
+    "cannot_retrieve_module_info": "Impossibile recuperare info modulo",
+    "cannot_retrieve_installed_modules": "Impossibile elencare moduli installati",
+    "cannot_retrieve_configuration": "Impossibile recuperare la configurazione"
+  }
 }

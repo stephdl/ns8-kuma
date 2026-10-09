@@ -1,24 +1,31 @@
 {
   "name": "Uptime Kuma",
   "description": {
-    "en": "Uptime Kuma is an open-source, free and easy-to-use self-hosted monitoring tool."
+    "en": "Self-hosted monitoring for websites, services and certificates, with email alerts.",
+    "fr": "Supervision auto-hébergée des sites web, services et certificats, avec alertes par email.",
+    "it": "Monitoraggio self-hosted di siti web, servizi e certificati, con avvisi email.",
+    "de": "Selbst gehostetes Monitoring für Websites, Dienste und Zertifikate, mit E-Mail-Warnungen.",
+    "es": "Monitorización autoalojada de sitios web, servicios y certificados, con alertas por correo.",
+    "pt": "Monitorização auto-hospedada de sites, serviços e certificados, com alertas por email.",
+    "pt_BR": "Monitoramento auto-hospedado de sites, serviços e certificados, com alertas por e-mail.",
+    "eu": "Webguneen, zerbitzuen eta ziurtagirien monitorizazio auto-ostatatua, posta bidezko alertekin."
   },
   "categories": [
     "monitoring"
   ],
   "authors": [
     {
-      "name": "Markus Neuberger",
-      "email": "dev@markusneuberger.at"
+      "name": "Stephane de Labrusse",
+      "email": "stephdl@de-labrusse.fr"
     },
     {
-      "name": "Stephane de Labrusse",
-      "email": "stephane@de-labrusse.fr"
+      "name": "Markus Neuberger",
+      "email": "dev@markusneuberger.at"
     }
   ],
   "docs": {
-    "documentation_url": "https://uptimekuma.org/wiki",
-    "bug_url": "https://community.nethserver.org",
+    "documentation_url": "https://github.com/stephdl/ns8-kuma#readme",
+    "bug_url": "https://github.com/stephdl/dev/issues",
     "code_url": "https://github.com/stephdl/ns8-kuma"
   },
   "source": "ghcr.io/stephdl/kuma"

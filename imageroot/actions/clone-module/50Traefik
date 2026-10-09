@@ -10,6 +10,7 @@ import os
 
 configure_retval = agent.tasks.run(agent_id=os.environ['AGENT_ID'], action='configure-module', data={
     "host": os.environ["TRAEFIK_HOST"],
+    "lets_encrypt": os.environ.get("TRAEFIK_LETS_ENCRYPT") == "True",
     "smtp_enabled": os.environ.get("SMTP_ENABLED") == "True",
     "notification_emails": [e for e in os.environ.get("NOTIFICATION_EMAILS", "").split(",") if e],
 })

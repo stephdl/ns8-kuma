@@ -1,57 +1,98 @@
 {
-    "error": {
-        "403": "Operação não autorizada",
-        "cannot_retrieve_installed_modules": "Não é possível recuperar módulos instalados",
-        "401": "Autenticação inválida",
-        "cannot_retrieve_module_info": "Não é possível recuperar informações do módulo",
-        "generic_error": "Algo deu errado",
-        "error": "Erro",
-        "network_timeout": "Tempo limite da rede",
-        "404": "Recurso não encontrado",
-        "network_error": "Erro de rede",
-        "validation_error": "Erros de validação"
-    },
-    "settings": {
-        "test_field": "Campo de teste",
-        "configure_instance": "Configurar {instância}",
-        "save": "Gravar",
-        "title": "Configurações"
-    },
-    "common": {
-        "required": "Obrigatório",
-        "work_in_progress": "Trabalho em progresso",
-        "processing": "Processando..."
-    },
-    "status": {
-        "created": "Criado",
-        "size": "Tamanho",
-        "name": "Nome",
-        "no_images": "Sem imagens",
-        "app_volumes": "Volume do aplicativo | Volumes dos aplicativos",
-        "services": "Serviço | Serviços",
-        "app_images": "Imagem do aplicativo | Imagens dos aplicativos",
-        "no_services": "Nenhum serviço",
-        "app_instance": "Instância do aplicativo",
-        "mount": "Montar",
-        "title": "Estado",
-        "installation_node": "Nó de instalação",
-        "node": "Node",
-        "no_volumes": "Sem volumes"
-    },
-    "about": {
-        "title": "Sobre"
-    },
-    "action": {
-        "list-backup-repositories": "Listar repositórios de backup",
-        "get-module-info": "Obtenha informações do módulo",
-        "list-installed-modules": "Listar módulos instalados",
-        "list-backups": "Listar backups",
-        "get-status": "Obter status",
-        "configure-module": "Configurar módulo",
-        "get-configuration": "Obter configuração",
-        "get-name": "Obter nome"
-    },
-    "task": {
-        "cannot_create_task": "Não é possível criar a tarefa {action}"
-    }
+  "common": {
+    "required": "Obrigatório",
+    "work_in_progress": "Trabalho em progresso",
+    "processing": "Processando..."
+  },
+  "status": {
+    "title": "Estado",
+    "app_instance": "Instância do aplicativo",
+    "services": "Serviço | Serviços",
+    "app_images": "Imagem do aplicativo | Imagens dos aplicativos",
+    "app_volumes": "Volume do aplicativo | Volumes dos aplicativos",
+    "installation_node": "Nó de instalação",
+    "node": "Node",
+    "name": "Nome",
+    "size": "Tamanho",
+    "created": "Criado",
+    "mount": "Montar",
+    "no_services": "Nenhum serviço",
+    "no_images": "Sem imagens",
+    "no_volumes": "Sem volumes",
+    "kuma_webapp": "Uptime Kuma",
+    "not_configured": "Não configurado",
+    "open_webapp": "Abrir Uptime Kuma",
+    "configure": "Configurar",
+    "application": "Aplicação",
+    "restart_application": "Reiniciar aplicação",
+    "restart_module_warning": "Tem a certeza de que quer reiniciar {name}? O serviço ficará brevemente indisponível durante o reinício.",
+    "go_to_node_details": "Ir para os detalhes do nó",
+    "failed_services": "Serviços com falha",
+    "all_services_running": "Todos os serviços estão em execução",
+    "search_images": "Pesquisar imagens",
+    "search_volumes": "Pesquisar volumes"
+  },
+  "settings": {
+    "title": "Configurações",
+    "configure_instance": "Configurar {instância}",
+    "save": "Gravar",
+    "kuma_fqdn": "Nome de host do Uptime Kuma (FQDN)",
+    "lets_encrypt": "Pedir certificado Let's Encrypt",
+    "enabled": "Ativado",
+    "disabled": "Desativado",
+    "advanced": "Avançado",
+    "configuring": "A configurar",
+    "instance_configuration": "Configurar Uptime Kuma",
+    "domain_already_used_in_traefik": "Domínio já utilizado no Traefik",
+    "host_pattern": "Deve ser um nome de domínio completo válido",
+    "host_format": "Deve ser um nome de domínio completo válido",
+    "admin_title": "Conta de administrador",
+    "admin_description": "Crie o administrador do Uptime Kuma.",
+    "admin_username": "Utilizador do administrador",
+    "admin_password": "Palavra-passe do administrador",
+    "admin_password_confirm": "Confirmar palavra-passe do administrador",
+    "admin_password_helper": "Pelo menos 8 caracteres com minúscula, maiúscula, número e símbolo",
+    "admin_password_too_weak": "Palavra-passe demasiado fraca",
+    "admin_password_mismatch": "As palavras-passe não coincidem",
+    "smtp_enabled": "Enviar alertas através do smarthost do cluster",
+    "smtp_enabled_tooltip": "O Uptime Kuma recebe uma notificação de email predefinida chamada \"NethServer smarthost\". Segue as definições do smarthost do cluster.",
+    "go_to_email_notifications": "Ir para as notificações por email",
+    "smarthost_not_configured": "Nenhum smarthost configurado",
+    "smarthost_not_configured_description": "Configure um smarthost nas notificações por email do cluster para receber os alertas do Uptime Kuma por email.",
+    "notification_emails": "Emails dos destinatários dos alertas",
+    "notification_emails_helper": "Um endereço de email por linha",
+    "invalid_email": "Endereço de email inválido: {email}",
+    "admin_configured": "Administrador já criado",
+    "admin_configured_description": "Altere o utilizador e a palavra-passe do administrador na página web do Uptime Kuma."
+  },
+  "about": {
+    "title": "Sobre"
+  },
+  "task": {
+    "cannot_create_task": "Não é possível criar a tarefa {action}"
+  },
+  "action": {
+    "get-status": "Obter status",
+    "get-configuration": "Obter configuração",
+    "configure-module": "Configurar módulo",
+    "get-module-info": "Obtenha informações do módulo",
+    "get-name": "Obter nome",
+    "list-backup-repositories": "Listar repositórios de backup",
+    "list-backups": "Listar backups",
+    "list-installed-modules": "Listar módulos instalados",
+    "restart-module": "Reiniciar módulo"
+  },
+  "error": {
+    "error": "Erro",
+    "generic_error": "Algo deu errado",
+    "validation_error": "Erros de validação",
+    "network_error": "Erro de rede",
+    "network_timeout": "Tempo limite da rede",
+    "401": "Autenticação inválida",
+    "403": "Operação não autorizada",
+    "404": "Recurso não encontrado",
+    "cannot_retrieve_module_info": "Não é possível recuperar informações do módulo",
+    "cannot_retrieve_installed_modules": "Não é possível recuperar módulos instalados",
+    "cannot_retrieve_configuration": "Não é possível obter a configuração"
+  }
 }
