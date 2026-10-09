@@ -20,7 +20,7 @@
   ],
   "docs": {
     "documentation_url": "https://github.com/stephdl/ns8-kuma#readme",
-    "bug_url": "https://github.com/stephdl/ns8-kuma/issues",
+    "bug_url": "https://github.com/stephdl/dev/issues",
     "code_url": "https://github.com/stephdl/ns8-kuma"
   },
   "source": "ghcr.io/stephdl/kuma"
