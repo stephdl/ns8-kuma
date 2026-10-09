@@ -1,24 +1,26 @@
 {
   "name": "Uptime Kuma",
   "description": {
-    "en": "Uptime Kuma is an open-source, free and easy-to-use self-hosted monitoring tool."
+    "en": "Self-hosted monitoring for websites, ports, mail servers and certificates, with a MariaDB database and email alerts through the cluster smarthost.",
+    "fr": "Supervision auto-hébergée des sites web, ports, serveurs de messagerie et certificats, avec une base MariaDB et des alertes par email via le smarthost du cluster.",
+    "it": "Monitoraggio self-hosted di siti web, porte, server di posta e certificati, con un database MariaDB e avvisi email tramite lo smarthost del cluster."
   },
   "categories": [
     "monitoring"
   ],
   "authors": [
     {
-      "name": "Markus Neuberger",
-      "email": "dev@markusneuberger.at"
+      "name": "Stephane de Labrusse",
+      "email": "stephdl@de-labrusse.fr"
     },
     {
-      "name": "Stephane de Labrusse",
-      "email": "stephane@de-labrusse.fr"
+      "name": "Markus Neuberger",
+      "email": "dev@markusneuberger.at"
     }
   ],
   "docs": {
-    "documentation_url": "https://uptimekuma.org/wiki",
-    "bug_url": "https://community.nethserver.org",
+    "documentation_url": "https://github.com/stephdl/ns8-kuma#readme",
+    "bug_url": "https://github.com/stephdl/ns8-kuma/issues",
     "code_url": "https://github.com/stephdl/ns8-kuma"
   },
   "source": "ghcr.io/stephdl/kuma"
