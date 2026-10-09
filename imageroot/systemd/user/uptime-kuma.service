@@ -10,8 +10,8 @@
 
 [Unit]
 Description=Podman uptime-kuma.service
-Requires=uptime-kuma-app.service
-Before=uptime-kuma-app.service
+Requires=uptime-kuma-mariadb.service uptime-kuma-app.service
+Before=uptime-kuma-mariadb.service uptime-kuma-app.service
 
 [Service]
 Environment=PODMAN_SYSTEMD_UNIT=%n

@@ -40,7 +40,7 @@ buildah config --entrypoint=/ \
     --label="org.nethserver.tcp-ports-demand=1" \
     --label="org.nethserver.rootfull=0" \
 	--label="org.nethserver.min-core=3.12.4-0" \
-    --label="org.nethserver.images=docker.io/louislam/uptime-kuma:2.5.5" \
+    --label="org.nethserver.images=docker.io/louislam/uptime-kuma:2.5.5 docker.io/library/mariadb:11.4.13" \
     "${container}"
 # Commit the image
 buildah commit "${container}" "${repobase}/${reponame}"

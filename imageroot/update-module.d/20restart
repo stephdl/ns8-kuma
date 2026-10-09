@@ -14,4 +14,4 @@ exec 1>&2
 
 touch uptime-kuma.env
 
-systemctl --user try-restart uptime-kuma.service
+systemctl --user try-restart uptime-kuma.service uptime-kuma-mariadb.service uptime-kuma-app.service

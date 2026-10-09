@@ -6,22 +6,22 @@
 [Unit]
 Description=Podman  uptime-kuma-app.service
 BindsTo=uptime-kuma.service
-After=uptime-kuma.service
+Requires=uptime-kuma-mariadb.service
+After=uptime-kuma.service uptime-kuma-mariadb.service
 
 [Service]
 Environment=PODMAN_SYSTEMD_UNIT=%n
 EnvironmentFile=%E/state/environment
-EnvironmentFile=-%E/state/smarthost.env
 WorkingDirectory=%E/state
 Restart=always
 TimeoutStopSec=70
 ExecStartPre=/bin/mkdir -p tmp
 ExecStartPre=/bin/rm -f %t/uptime-kuma-app.pid %t/uptime-kuma-app.ctr-id
-ExecStartPre=-runagent discover-smarthost
 ExecStart=/usr/bin/podman run --conmon-pidfile %t/uptime-kuma-app.pid --cidfile %t/uptime-kuma-app.ctr-id \
    --cgroups=no-conmon --pod-id-file %t/uptime-kuma.pod-id --replace -d --name uptime-kuma-app \
    --volume uptime-kuma-data:/app/data:z \
    --env-file uptime-kuma.env \
+   --env-file kuma-db.env \
    --cap-add=NET_RAW \
    ${UPTIME_KUMA_IMAGE}
 ExecStop=/usr/bin/podman stop --ignore --cidfile %t/uptime-kuma-app.ctr-id -t 10
