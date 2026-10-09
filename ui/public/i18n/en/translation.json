@@ -22,7 +22,15 @@
     "uptime-kuma_webapp": "uptime-kuma webapp",
     "not_configured": "Not configured",
     "open_webapp": "Open uptime-kuma",
-    "configure": "Configure"
+    "configure": "Configure",
+    "application": "Application",
+    "restart_application": "Restart application",
+    "restart_module_warning": "Are you sure you want to restart {name}? The service will be briefly unavailable during the restart.",
+    "go_to_node_details": "Go to node details",
+    "failed_services": "Failed services",
+    "all_services_running": "All services are running",
+    "search_images": "Search images",
+    "search_volumes": "Search volumes"
   },
   "settings": {
     "title": "Settings",
@@ -54,7 +62,8 @@
     "get-name": "Get name",
     "list-backup-repositories": "List backup repositories",
     "list-backups": "List backups",
-    "list-installed-modules": "List installed modules"
+    "list-installed-modules": "List installed modules",
+    "restart-module": "Restart module"
   },
   "error": {
     "error": "Error",
