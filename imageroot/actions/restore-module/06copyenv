@@ -15,8 +15,10 @@ original_environment = request['environment']
 
 for evar in [
         "TRAEFIK_HOST",
-        "TRAEFIK_HTTP2HTTPS",
     ]:
     agent.set_env(evar, original_environment[evar])
+
+agent.set_env("SMTP_ENABLED", original_environment.get("SMTP_ENABLED", "False"))
+agent.set_env("NOTIFICATION_EMAILS", original_environment.get("NOTIFICATION_EMAILS", ""))
 
 agent.dump_env()

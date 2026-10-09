@@ -12,6 +12,6 @@ set -e
 # Redirect any output to the journal (stderr)
 exec 1>&2
 
-touch uptime-kuma.env
+touch kuma.env
 
-systemctl --user try-restart uptime-kuma.service
+systemctl --user try-restart kuma.service kuma-mariadb.service kuma-app.service

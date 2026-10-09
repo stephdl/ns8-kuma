@@ -1,0 +1,19 @@
+#!/bin/bash
+
+#
+# Copyright (C) 2026 Nethesis S.r.l.
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+
+set -e
+
+# The dump holds the notification credentials
+umask 077
+
+if [[ "$(podman inspect -f '{{.State.Running}}' kuma-mariadb 2>/dev/null)" != "true" ]]; then
+    echo "kuma-mariadb is not running: start the module before the backup" 1>&2
+    exit 1
+fi
+
+podman exec kuma-mariadb sh -c 'MYSQL_PWD="${MARIADB_ROOT_PASSWORD}" exec mariadb-dump -uroot --databases "${MARIADB_DATABASE}" --default-character-set=utf8mb4 --single-transaction --quick --add-drop-table --skip-dump-date' > kuma.sql.tmp
+mv kuma.sql.tmp kuma.sql

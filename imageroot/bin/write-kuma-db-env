@@ -1,0 +1,22 @@
+#!/usr/bin/env python3
+
+#
+# Copyright (C) 2026 Nethesis S.r.l.
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+
+import os
+import agent
+
+os.umask(0o077)
+
+# These variables skip the database choice page of Uptime Kuma
+db = agent.read_envfile("database.env")
+agent.write_envfile("kuma-db.env", {
+    "UPTIME_KUMA_DB_TYPE": "mariadb",
+    "UPTIME_KUMA_DB_HOSTNAME": "127.0.0.1",
+    "UPTIME_KUMA_DB_PORT": "3306",
+    "UPTIME_KUMA_DB_NAME": db["MARIADB_DATABASE"],
+    "UPTIME_KUMA_DB_USERNAME": db["MARIADB_USER"],
+    "UPTIME_KUMA_DB_PASSWORD": db["MARIADB_PASSWORD"],
+})

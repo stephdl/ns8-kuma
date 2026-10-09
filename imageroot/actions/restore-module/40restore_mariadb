@@ -1,0 +1,35 @@
+#!/bin/bash
+
+#
+# Copyright (C) 2026 Nethesis S.r.l.
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+
+set -e
+
+# Redirect any output to the journal (stderr)
+exec 1>&2
+
+if [[ ! -f kuma.sql ]]; then
+    exit 0
+fi
+
+# MariaDB loads initdb.d only into an empty data directory
+podman volume rm -f mariadb-data
+
+mkdir -p initdb.d
+mv -v kuma.sql initdb.d/
+# Stop the temporary server once the dump is loaded, so the container exits
+cat - >initdb.d/zz_restore.sh <<'EOS'
+docker_temp_server_stop
+exit 0
+EOS
+# The dump is private to the module user, the mysql user of the container must read it
+chmod -R a+rX initdb.d
+
+podman run --rm --interactive --env-file database.env \
+    --volume ./initdb.d:/docker-entrypoint-initdb.d:z \
+    --volume mariadb-data:/var/lib/mysql:Z \
+    "${MARIADB_IMAGE}"
+
+rm -rf initdb.d
