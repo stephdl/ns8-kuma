@@ -7,7 +7,14 @@
         {
             "host": "uptime-kuma.domain.org",
             "http2https": true,
-            "lets_encrypt": true
+            "lets_encrypt": true,
+            "smtp_enabled": true,
+            "notification_emails": [
+                "admin@domain.org",
+                "ops@domain.org"
+            ],
+            "admin_username": "admin",
+            "admin_password": "Example,Pass1"
         }
     ],
     "type": "object",
@@ -30,6 +37,62 @@
             "type": "boolean",
             "title": "HTTP to HTTPS redirection",
             "description": "Redirect all the HTTP requests to HTTPS"
+        },
+        "smtp_enabled": {
+            "type": "boolean",
+            "title": "Smarthost notifications",
+            "description": "Send Uptime Kuma alerts through the cluster smarthost"
+        },
+        "notification_emails": {
+            "type": "array",
+            "title": "Notification recipients",
+            "description": "Email addresses that receive the alerts",
+            "items": {
+                "type": "string",
+                "format": "email"
+            },
+            "uniqueItems": true
+        },
+        "admin_username": {
+            "type": "string",
+            "title": "Admin user name",
+            "description": "Uptime Kuma administrator, created only if no user exists yet",
+            "minLength": 1,
+            "pattern": "^\\S+$"
+        },
+        "admin_password": {
+            "type": "string",
+            "title": "Admin password",
+            "description": "Password of the Uptime Kuma administrator",
+            "minLength": 6
         }
+    },
+    "if": {
+        "properties": {
+            "smtp_enabled": {
+                "const": true
+            }
+        },
+        "required": [
+            "smtp_enabled"
+        ]
+    },
+    "then": {
+        "required": [
+            "notification_emails"
+        ],
+        "properties": {
+            "notification_emails": {
+                "minItems": 1
+            }
+        }
+    },
+    "dependencies": {
+        "admin_username": [
+            "admin_password"
+        ],
+        "admin_password": [
+            "admin_username"
+        ]
     }
 }

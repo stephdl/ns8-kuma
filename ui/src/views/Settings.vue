@@ -80,25 +80,112 @@
                 />
               </cv-column>
             </cv-row>
-            <cv-toggle
-              value="httpToHttps"
-              :label="$t('settings.http_to_https')"
-              v-model="isHttpToHttpsEnabled"
-              :disabled="loading.getConfiguration || loading.configureModule"
-              class="mg-bottom"
-            >
-              <template slot="text-left">{{
-                $t("settings.disabled")
-              }}</template>
-              <template slot="text-right">{{
-                $t("settings.enabled")
-              }}</template>
-            </cv-toggle>
+            <h4 class="mg-bottom-sm">{{ $t("settings.admin_title") }}</h4>
+            <template v-if="isAdminConfigured">
+              <NsInlineNotification
+                kind="info"
+                :title="$t('settings.admin_configured')"
+                :description="$t('settings.admin_configured_description')"
+                :actionLabel="host ? $t('status.open_webapp') : ''"
+                @action="goToWebapp"
+                :showCloseButton="false"
+              />
+              <cv-text-input
+                :label="$t('settings.admin_username')"
+                :value="adminUsername"
+                class="mg-bottom"
+                disabled
+              />
+            </template>
+            <template v-else-if="!loading.getConfiguration">
+              <p class="mg-bottom">{{ $t("settings.admin_description") }}</p>
+              <cv-text-input
+                :label="$t('settings.admin_username')"
+                v-model.trim="adminUsername"
+                class="mg-bottom"
+                :invalid-message="$t(error.admin_username)"
+                :disabled="stillLoading"
+                ref="admin_username"
+              >
+              </cv-text-input>
+              <NsPasswordInput
+                :newPasswordLabel="$t('settings.admin_password')"
+                :confirmPasswordLabel="$t('settings.admin_password_confirm')"
+                v-model="adminPassword"
+                @passwordValidation="onAdminPasswordValidation"
+                :newPaswordHelperText="$t('settings.admin_password_helper')"
+                :newPasswordInvalidMessage="$t(error.admin_password)"
+                :confirmPasswordInvalidMessage="
+                  $t(error.admin_password_confirm)
+                "
+                :passwordHideLabel="core.$t('password.hide_password')"
+                :passwordShowLabel="core.$t('password.show_password')"
+                :lengthLabel="core.$t('password.long_enough')"
+                :lowercaseLabel="core.$t('password.lowercase_letter')"
+                :uppercaseLabel="core.$t('password.uppercase_letter')"
+                :numberLabel="core.$t('password.number')"
+                :symbolLabel="core.$t('password.symbol')"
+                :equalLabel="core.$t('password.equal')"
+                :focus="focusPasswordField"
+                :minLength="8"
+                :disabled="stillLoading"
+                class="mg-bottom"
+              />
+            </template>
             <!-- advanced options -->
             <cv-accordion ref="accordion" class="maxwidth mg-bottom">
-              <cv-accordion-item :open="toggleAccordion[0]">
+              <cv-accordion-item :open="isAdvancedOpen">
                 <template slot="title">{{ $t("settings.advanced") }}</template>
-                <template slot="content"> </template>
+                <template slot="content">
+                  <NsToggle
+                    value="smtpEnabled"
+                    :label="$t('settings.smtp_enabled')"
+                    v-model="isSmtpEnabled"
+                    :disabled="
+                      stillLoading || (!isSmarthostAvailable && !isSmtpEnabled)
+                    "
+                    class="mg-bottom"
+                  >
+                    <template #tooltip>
+                      <div class="mg-bottom-sm">
+                        {{ $t("settings.smtp_enabled_tooltip") }}
+                      </div>
+                      <div class="mg-bottom-sm">
+                        <cv-link @click="goToEmailNotifications">
+                          {{ $t("settings.go_to_email_notifications") }}
+                        </cv-link>
+                      </div>
+                    </template>
+                    <template slot="text-left">{{
+                      $t("settings.disabled")
+                    }}</template>
+                    <template slot="text-right">{{
+                      $t("settings.enabled")
+                    }}</template>
+                  </NsToggle>
+                  <NsInlineNotification
+                    v-if="!loading.getConfiguration && !isSmarthostAvailable"
+                    kind="info"
+                    :title="$t('settings.smarthost_not_configured')"
+                    :description="
+                      $t('settings.smarthost_not_configured_description')
+                    "
+                    :actionLabel="$t('settings.go_to_email_notifications')"
+                    @action="goToEmailNotifications"
+                    :showCloseButton="false"
+                  />
+                  <cv-text-area
+                    v-if="isSmtpEnabled"
+                    :label="$t('settings.notification_emails')"
+                    :helper-text="$t('settings.notification_emails_helper')"
+                    placeholder="admin@example.org"
+                    v-model="notificationEmails"
+                    class="mg-bottom maxwidth"
+                    :invalid-message="error.notification_emails"
+                    :disabled="stillLoading"
+                    ref="notification_emails"
+                  />
+                </template>
               </cv-accordion-item>
             </cv-accordion>
             <cv-row v-if="error.configureModule">
@@ -191,7 +278,15 @@ export default {
       host: "",
       isLetsEncryptEnabled: false,
       isLetsEncryptCurrentlyEnabled: false,
-      isHttpToHttpsEnabled: true,
+      isAdminConfigured: true,
+      adminUsername: "",
+      adminPassword: "",
+      adminPasswordValidation: null,
+      focusPasswordField: { element: "" },
+      isSmarthostAvailable: false,
+      isSmtpEnabled: false,
+      isAdvancedOpen: false,
+      notificationEmails: "",
       loading: {
         getConfiguration: false,
         configureModule: false,
@@ -202,7 +297,10 @@ export default {
         configureModule: "",
         host: "",
         lets_encrypt: "",
-        http2https: "",
+        admin_username: "",
+        admin_password: "",
+        admin_password_confirm: "",
+        notification_emails: "",
         getStatus: false,
       },
     };
@@ -234,6 +332,23 @@ export default {
   methods: {
     goToCertificates() {
       this.core.$router.push("/settings/tls-certificates");
+    },
+    goToWebapp() {
+      window.open(`https://${this.host}`, "_blank");
+    },
+    goToEmailNotifications() {
+      this.core.$router.push("/settings/smarthost");
+    },
+    emailList() {
+      // One address per line, commas and spaces accepted too
+      return [
+        ...new Set(
+          this.notificationEmails.split(/[\s,;]+/).filter((email) => email)
+        ),
+      ];
+    },
+    onAdminPasswordValidation(validation) {
+      this.adminPasswordValidation = validation;
     },
     async getStatus() {
       this.loading.getStatus = true;
@@ -324,7 +439,12 @@ export default {
       this.host = config.host;
       this.isLetsEncryptEnabled = config.lets_encrypt;
       this.isLetsEncryptCurrentlyEnabled = config.lets_encrypt;
-      this.isHttpToHttpsEnabled = config.http2https;
+      this.isAdminConfigured = config.admin_username !== "";
+      this.isSmarthostAvailable = config.smarthost_available;
+      this.isSmtpEnabled = config.smtp_enabled;
+      this.notificationEmails = config.notification_emails.join("\n");
+      this.adminUsername = config.admin_username;
+      this.adminPassword = "";
 
       this.loading.getConfiguration = false;
       this.focusElement("host");
@@ -341,6 +461,56 @@ export default {
           this.focusElement("host");
         }
         isValidationOk = false;
+      }
+
+      if (!this.isAdminConfigured) {
+        if (!this.adminUsername) {
+          this.error.admin_username = "common.required";
+          if (isValidationOk) {
+            this.focusElement("admin_username");
+          }
+          isValidationOk = false;
+        }
+        const v = this.adminPasswordValidation;
+        if (
+          !v ||
+          !v.isLengthOk ||
+          !v.isLowercaseOk ||
+          !v.isUppercaseOk ||
+          !v.isNumberOk ||
+          !v.isSymbolOk
+        ) {
+          this.error.admin_password = "settings.admin_password_too_weak";
+          if (isValidationOk) {
+            this.focusPasswordField = { element: "newPassword" };
+          }
+          isValidationOk = false;
+        } else if (!v.isEqualOk) {
+          this.error.admin_password_confirm =
+            "settings.admin_password_mismatch";
+          if (isValidationOk) {
+            this.focusPasswordField = { element: "confirmPassword" };
+          }
+          isValidationOk = false;
+        }
+      }
+
+      if (this.isSmtpEnabled) {
+        const emails = this.emailList();
+        const invalid = emails.find(
+          (email) => !/^[^\s@]+@[^\s@]+$/.test(email)
+        );
+        if (!emails.length || invalid) {
+          this.error.notification_emails = emails.length
+            ? this.$t("settings.invalid_email", { email: invalid })
+            : this.$t("common.required");
+          // The field lives in the collapsed advanced section
+          this.isAdvancedOpen = true;
+          if (isValidationOk) {
+            this.$nextTick(() => this.focusElement("notification_emails"));
+          }
+          isValidationOk = false;
+        }
       }
       return isValidationOk;
     },
@@ -399,7 +569,15 @@ export default {
           data: {
             host: this.host,
             lets_encrypt: this.isLetsEncryptEnabled,
-            http2https: this.isHttpToHttpsEnabled,
+            http2https: true,
+            smtp_enabled: this.isSmtpEnabled,
+            notification_emails: this.isSmtpEnabled ? this.emailList() : [],
+            ...(!this.isAdminConfigured && this.adminPassword
+              ? {
+                  admin_username: this.adminUsername,
+                  admin_password: this.adminPassword,
+                }
+              : {}),
           },
           extra: {
             title: this.$t("settings.instance_configuration", {
@@ -438,6 +616,10 @@ export default {
 @import "../styles/carbon-utils";
 .mg-bottom {
   margin-bottom: $spacing-06;
+}
+
+.mg-bottom-sm {
+  margin-bottom: $spacing-03;
 }
 
 .maxwidth {

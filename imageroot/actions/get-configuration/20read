@@ -13,6 +13,7 @@ import os
 import sys
 import json
 import agent
+from kuma import admin_username
 
 # Prepare return variable
 config = {}
@@ -21,6 +22,12 @@ config = {}
 config["host"] = os.getenv("TRAEFIK_HOST","")
 config["http2https"] = os.getenv("TRAEFIK_HTTP2HTTPS") == "True"
 config["lets_encrypt"] = agent.get_route(os.environ['MODULE_ID']).get('lets_encrypt', False)
+
+smarthost = agent.get_smarthost_settings(agent.redis_connect(use_replica=True))
+config["smarthost_available"] = smarthost["enabled"] and smarthost["host"] != ""
+config["admin_username"] = admin_username() or ""
+config["smtp_enabled"] = os.getenv("SMTP_ENABLED") == "True"
+config["notification_emails"] = [e for e in os.getenv("NOTIFICATION_EMAILS", "").split(",") if e]
 
 # Dump the configuration to stdout
 json.dump(config, fp=sys.stdout)

@@ -1,0 +1,80 @@
+#!/usr/bin/env python3
+
+#
+# Copyright (C) 2026 Nethesis S.r.l.
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+
+# Talk to the Uptime Kuma socket API from inside the app container.
+#
+#   kuma-admin need-setup [TIMEOUT]   print "true" if no admin user exists yet
+#   kuma-admin setup                  create the admin from {"username", "password"} on stdin
+#
+# Exit codes: 0 success, 1 server unreachable, 2 setup refused by Uptime Kuma.
+
+import json
+import subprocess
+import sys
+
+# Credentials go through the script text on stdin, never on a command line.
+NODE_SCRIPT = """
+const { io } = require("socket.io-client");
+const input = %s;
+const deadline = Date.now() + input.timeout * 1000;
+// Never hang if the server drops the connection before answering
+setTimeout(() => process.exit(1), (input.timeout + 15) * 1000);
+function attempt() {
+    const socket = io("http://127.0.0.1:3001", { transports: ["websocket"], reconnection: false, timeout: 5000 });
+    const done = (code, out) => { socket.close(); if (out) console.log(JSON.stringify(out)); process.exit(code); };
+    socket.on("connect_error", () => {
+        socket.close();
+        if (Date.now() > deadline) process.exit(1);
+        setTimeout(attempt, 2000);
+    });
+    // The server registers its handlers only after sending "info"
+    socket.once("info", () => {
+        socket.emit("needSetup", (needSetup) => {
+            if (input.action === "need-setup" || !needSetup) {
+                return done(0, { needSetup });
+            }
+            socket.emit("setup", input.username, input.password, (res) => {
+                done(res.ok ? 0 : 2, { needSetup: !res.ok, msg: res.msg });
+            });
+        });
+    });
+}
+attempt();
+"""
+
+
+def run(action, timeout, username="", password=""):
+    script = NODE_SCRIPT % json.dumps({
+        "action": action,
+        "timeout": timeout,
+        "username": username,
+        "password": password,
+    })
+    try:
+        proc = subprocess.run(
+            ["podman", "exec", "-i", "-w", "/app", "uptime-kuma-app", "node", "-"],
+            input=script, capture_output=True, text=True, timeout=timeout + 30,
+        )
+        return proc.returncode, json.loads(proc.stdout)
+    except (subprocess.TimeoutExpired, json.JSONDecodeError):
+        print("Uptime Kuma is not reachable", file=sys.stderr)
+        return 1, None
+
+
+if __name__ == "__main__":
+    if sys.argv[1:2] == ["need-setup"]:
+        code, out = run("need-setup", timeout=int(sys.argv[2]) if len(sys.argv) > 2 else 5)
+        print("true" if out and out["needSetup"] else "false")
+        sys.exit(code)
+    elif sys.argv[1:] == ["setup"]:
+        request = json.load(sys.stdin)
+        code, out = run("setup", 180, request["username"], request["password"])
+        if out:
+            print(json.dumps(out))
+        sys.exit(code)
+    print("Usage: kuma-admin need-setup [TIMEOUT] | setup", file=sys.stderr)
+    sys.exit(1)

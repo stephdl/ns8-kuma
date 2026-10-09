@@ -11,5 +11,7 @@ import os
 configure_retval = agent.tasks.run(agent_id=os.environ['AGENT_ID'], action='configure-module', data={
     "host": os.environ["TRAEFIK_HOST"],
     "http2https": os.environ["TRAEFIK_HTTP2HTTPS"] == "True",
+    "smtp_enabled": os.environ.get("SMTP_ENABLED") == "True",
+    "notification_emails": [e for e in os.environ.get("NOTIFICATION_EMAILS", "").split(",") if e],
 })
 agent.assert_exp(configure_retval['exit_code'] == 0, "The configure-module subtask failed!")

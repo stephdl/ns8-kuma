@@ -19,3 +19,5 @@ h2hs = data.get("http2https", True)
 
 agent.set_env("TRAEFIK_HOST", host)
 agent.set_env("TRAEFIK_HTTP2HTTPS", h2hs)
+agent.set_env("SMTP_ENABLED", data.get("smtp_enabled", False))
+agent.set_env("NOTIFICATION_EMAILS", ",".join(data.get("notification_emails", [])))

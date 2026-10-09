@@ -1,0 +1,75 @@
+#!/usr/bin/env python3
+
+#
+# Copyright (C) 2026 Nethesis S.r.l.
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+
+# Keep the "NethServer smarthost" notification of Uptime Kuma in sync with
+# the cluster smarthost. Uptime Kuma reads the notification config on each
+# alert, so no restart is needed.
+
+import os
+import sys
+import json
+import fcntl
+import agent
+from kuma import sql, text_literal, need_setup
+
+NAME = "NethServer smarthost"
+
+
+# configure-module and the smarthost-changed event can run at the same time
+lock = open("sync-smarthost.lock", "w")
+fcntl.flock(lock, fcntl.LOCK_EX)
+
+# Wait for the server, so its database migrations are done
+setup_needed = need_setup(timeout=180)
+if setup_needed is None:
+    print(agent.SD_WARNING + "Uptime Kuma is not reachable, smarthost sync skipped", file=sys.stderr)
+    sys.exit(0)
+if setup_needed:
+    # The notification belongs to a user, it is created after the admin
+    print("No Uptime Kuma user yet, smarthost sync skipped", file=sys.stderr)
+    sys.exit(0)
+
+user_id = sql("SELECT id FROM user ORDER BY id LIMIT 1;")
+agent.assert_exp(user_id.isdigit(), "Cannot read the Uptime Kuma admin user")
+
+rdb = agent.redis_connect(use_replica=True)
+smarthost = agent.get_smarthost_settings(rdb)
+recipient = ", ".join(e for e in os.getenv("NOTIFICATION_EMAILS", "").split(",") if e)
+wanted = os.getenv("SMTP_ENABLED") == "True" and smarthost["enabled"] and smarthost["host"] and recipient
+
+notification_id = sql(f"SELECT id FROM notification WHERE name = '{NAME}';")
+
+if not wanted:
+    # An inactive notification is still sent, so remove it with its monitor links
+    if notification_id:
+        sql(f"DELETE FROM monitor_notification WHERE notification_id = {int(notification_id)};"
+            f"DELETE FROM notification WHERE id = {int(notification_id)};")
+    sys.exit(0)
+
+domain = os.getenv("TRAEFIK_HOST", "localhost").split(".", 1)[-1]
+config = json.dumps({
+    "name": NAME,
+    "type": "smtp",
+    "isDefault": True,
+    "smtpHost": smarthost["host"],
+    "smtpPort": smarthost["port"],
+    "smtpSecure": smarthost["encrypt_smtp"] == "tls",
+    "smtpIgnoreSTARTTLS": smarthost["encrypt_smtp"] == "none",
+    "smtpIgnoreTLSError": not smarthost["tls_verify"],
+    "smtpUsername": smarthost["username"],
+    "smtpPassword": smarthost["password"],
+    "smtpFrom": f"uptime-kuma@{domain}",
+    "smtpTo": recipient,
+})
+
+if notification_id:
+    sql(f"UPDATE notification SET active = 1, is_default = 1, config = {text_literal(config)} WHERE id = {int(notification_id)};")
+else:
+    sql(f"INSERT INTO notification (name, active, user_id, is_default, config) VALUES ('{NAME}', 1, {int(user_id)}, 1, {text_literal(config)});")
+    # A default notification only applies to new monitors, so attach the existing ones too
+    notification_id = sql(f"SELECT id FROM notification WHERE name = '{NAME}';")
+    sql(f"INSERT INTO monitor_notification (monitor_id, notification_id) SELECT id, {int(notification_id)} FROM monitor;")

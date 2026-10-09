@@ -7,14 +7,24 @@
         {
             "host": "uptime-kuma.domain.org",
             "http2https": true,
-            "lets_encrypt": true
+            "lets_encrypt": true,
+            "smarthost_available": true,
+            "smtp_enabled": true,
+            "notification_emails": [
+                "admin@domain.org"
+            ],
+            "admin_username": "admin"
         }
     ],
     "type": "object",
     "required": [
         "host",
         "http2https",
-        "lets_encrypt"
+        "lets_encrypt",
+        "smarthost_available",
+        "smtp_enabled",
+        "notification_emails",
+        "admin_username"
     ],
     "properties": {
         "host": {
@@ -31,6 +41,29 @@
             "type": "boolean",
             "title": "HTTP to HTTPS redirection",
             "description": "Redirect all the HTTP requests to HTTPS"
+        },
+        "smarthost_available": {
+            "type": "boolean",
+            "title": "Smarthost available",
+            "description": "True when the cluster has an enabled smarthost"
+        },
+        "smtp_enabled": {
+            "type": "boolean",
+            "title": "Smarthost notifications",
+            "description": "Send Uptime Kuma alerts through the cluster smarthost"
+        },
+        "notification_emails": {
+            "type": "array",
+            "title": "Notification recipients",
+            "description": "Email addresses that receive the alerts",
+            "items": {
+                "type": "string"
+            }
+        },
+        "admin_username": {
+            "type": "string",
+            "title": "Admin user name",
+            "description": "Uptime Kuma administrator user name, empty when no administrator exists yet"
         }
     }
 }

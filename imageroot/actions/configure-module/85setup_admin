@@ -1,0 +1,25 @@
+#!/usr/bin/env python3
+
+#
+# Copyright (C) 2026 Nethesis S.r.l.
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+
+import sys
+import json
+import agent
+import subprocess
+
+data = json.load(sys.stdin)
+
+# The admin is created once, its password is then managed in Uptime Kuma
+if not data.get("admin_username") or not data.get("admin_password"):
+    sys.exit(0)
+
+proc = subprocess.run(["kuma-admin", "setup"], input=json.dumps({
+    "username": data["admin_username"],
+    "password": data["admin_password"],
+}), capture_output=True, text=True)
+if proc.stderr:
+    print(proc.stderr, file=sys.stderr)
+agent.assert_exp(proc.returncode == 0, "Admin user setup failed: " + proc.stdout)
