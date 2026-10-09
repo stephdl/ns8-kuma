@@ -21,15 +21,11 @@ container=$(buildah from scratch)
 # Reuse existing nodebuilder-uptime-kuma container, to speed up builds
 if ! buildah containers --format "{{.ContainerName}}" | grep -q nodebuilder-uptime-kuma; then
     echo "Pulling NodeJS runtime..."
-    buildah from --name nodebuilder-uptime-kuma -v "${PWD}:/usr/src:Z" docker.io/library/node:lts
+    buildah from --name nodebuilder-uptime-kuma -v "${PWD}:/usr/src:Z" docker.io/library/node:24-slim
 fi
 
 echo "Build static UI files with node..."
-buildah run \
-    --workingdir=/usr/src/ui \
-    --env="NODE_OPTIONS=--openssl-legacy-provider" \
-    nodebuilder-uptime-kuma \
-    sh -c "yarn install && yarn build"
+buildah run --env="NODE_OPTIONS=--openssl-legacy-provider" nodebuilder-uptime-kuma sh -c "cd /usr/src/ui && corepack enable && yarn install && yarn build"
 
 # Add imageroot directory to the container image
 buildah add "${container}" imageroot /imageroot
