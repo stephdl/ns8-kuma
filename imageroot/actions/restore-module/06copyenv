@@ -18,6 +18,7 @@ for evar in [
     ]:
     agent.set_env(evar, original_environment[evar])
 
+agent.set_env("TRAEFIK_LETS_ENCRYPT", original_environment.get("TRAEFIK_LETS_ENCRYPT", "False"))
 agent.set_env("SMTP_ENABLED", original_environment.get("SMTP_ENABLED", "False"))
 agent.set_env("NOTIFICATION_EMAILS", original_environment.get("NOTIFICATION_EMAILS", ""))
 

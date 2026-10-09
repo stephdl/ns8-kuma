@@ -31,7 +31,8 @@ The same settings on the command line:
       "notification_emails": ["admin@example.org", "ops@example.org"]
     }'
 
-Fields that are left out keep their current value. HTTP is always redirected to HTTPS.
+`host` is required. `admin_username` and `admin_password` go together. The other fields keep their current
+value when they are left out. HTTP is always redirected to HTTPS.
 
 ### Database
 
@@ -42,34 +43,47 @@ SQLite and the embedded MariaDB of Uptime Kuma are not supported.
 ### Administrator
 
 The module creates the administrator through the Uptime Kuma setup API on the first configuration.
-The password must not be weak (at least 6 characters from 2 kinds among lowercase, uppercase, digits and symbols).
+The Settings page asks for at least 8 characters with lowercase, uppercase, digit and symbol.
+The API only rejects what Uptime Kuma calls too weak: less than 6 characters, or a single kind of character.
 Once the administrator exists, the Settings page shows its name read only.
 Change the user name or the password from the Uptime Kuma web page.
 
 ### Email alerts
 
 When the cluster has a smarthost (Settings > Email notifications), the "Send alerts through the cluster
-smarthost" toggle can be enabled, with one or more recipients. The toggle is disabled while the cluster has
-no smarthost.
+smarthost" toggle can be enabled, with one or more recipients. The toggle cannot be turned on while the
+cluster has no smarthost. Recipients go one per line, commas and spaces are accepted too.
 
 The module then keeps a notification named "NethServer smarthost" in Uptime Kuma:
 
 - it is the default notification, attached to every existing monitor when it is created
 - its SMTP settings follow the cluster smarthost, and change when the smarthost changes
-- it is removed when the toggle is disabled or the cluster smarthost is turned off
+- it is removed when the toggle is disabled or the cluster smarthost is turned off, and created again when
+  the smarthost comes back
+- alerts are sent from `kuma@<domain>`, where the domain is the host name without its first label
+  (`kuma.example.org` sends from `kuma@example.org`), so the smarthost must accept that sender
 
+Edit the smarthost in NethServer, not this notification in Uptime Kuma: the next sync overwrites it.
 Other notifications, for example Telegram, are added from the Uptime Kuma web page and are never touched.
 
 ## Backup, restore and clone
 
-The backup saves a `mariadb-dump` of the database, taken by `module-dump-state`. The backup fails with a clear
-message when the MariaDB container is not running. A restore loads the dump into a new MariaDB volume, then
-reconfigures the module with the saved host and email settings. A clone copies the database with the volumes.
+The backup saves `state/database.env`, the `kuma-data` volume and a `mariadb-dump` of the database
+(`state/kuma.sql`, taken by `module-dump-state` and removed after the backup). The `mariadb-data` volume itself
+is not saved. The backup fails with a clear message when the MariaDB container is not running.
+
+A restore loads the dump into a new MariaDB volume, then reconfigures the module with the saved host,
+Let's Encrypt and email settings. The administrator comes back with the database. A restore fails if the
+backup has no dump.
+
+A clone copies the state and the volumes, then reconfigures the module the same way. The clone keeps the
+host name of the source: change it before using both instances.
 
 ## Update
 
-`update-module` writes the Uptime Kuma database settings and restarts the three services. An instance
-installed before the MariaDB container starts on an empty database: old SQLite data is not migrated.
+`update-module` installs the new image and restarts the three services. The data stays in the `mariadb-data` and `kuma-data` volumes.
+
+Renovate keeps MariaDB on the 11.4 LTS branch: a move to another major version needs a dump and restore.
 
 ## Services
 
@@ -78,6 +92,8 @@ installed before the MariaDB container starts on an empty database: old SQLite d
 | `kuma.service` | pod `kuma` | Podman pod, publishes Uptime Kuma on the module TCP port |
 | `kuma-mariadb.service` | `kuma-mariadb` | MariaDB 11.4, volume `mariadb-data` |
 | `kuma-app.service` | `kuma-app` | Uptime Kuma 2.x, volume `kuma-data` |
+
+Every Save in the Settings page restarts the three services.
 
 Useful commands:
 

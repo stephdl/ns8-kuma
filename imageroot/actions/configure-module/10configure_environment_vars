@@ -17,6 +17,8 @@ data = json.load(sys.stdin)
 host = data.get("host")
 
 agent.set_env("TRAEFIK_HOST", host)
+if "lets_encrypt" in data:
+    agent.set_env("TRAEFIK_LETS_ENCRYPT", data["lets_encrypt"])
 # Missing fields keep the stored values, so a partial API call does not drop the notification
 if "smtp_enabled" in data:
     agent.set_env("SMTP_ENABLED", data["smtp_enabled"])
