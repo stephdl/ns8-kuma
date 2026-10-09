@@ -35,12 +35,13 @@ The app can be uninstalled by using the Software Center or the CLI:
 
 ## Testing
 
-Test the module using the `test-module.sh` script:
+The [Robot Framework](https://robotframework.org/) suite in `tests/` runs on the NethServer CI after each image publication.
+To run it against a test node, use the shared runner of ns8-github-actions:
 
+    curl -sSL https://raw.githubusercontent.com/NethServer/ns8-github-actions/v1/scripts/test-module.sh -o /tmp/test-module.sh
+    SSH_KEYFILE=~/.ssh/id_rsa RUN_UI_TESTS=false bash /tmp/test-module.sh <NODE_ADDR> ghcr.io/stephdl/kuma:latest
 
-    ./test-module.sh <NODE_ADDR> ghcr.io/stephdl/kuma:latest
-
-The tests are made using [Robot Framework](https://robotframework.org/)
+The suite installs, configures, dumps, clones and removes a kuma instance.
 
 ## UI translation
 
