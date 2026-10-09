@@ -1,0 +1,23 @@
+#!/bin/bash
+
+#
+# Copyright (C) 2026 Nethesis S.r.l.
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+
+set -e
+
+# Redirect any output to the journal (stderr)
+exec 1>&2
+
+# Backups made before module-dump-state existed carry kuma.db in the volume
+if [[ ! -f kuma-backup.db ]]; then
+    exit 0
+fi
+
+podman run --rm --entrypoint sh \
+    --volume uptime-kuma-data:/app/data:z \
+    --volume ./kuma-backup.db:/srv/kuma-backup.db:ro,z \
+    "${UPTIME_KUMA_IMAGE}" -c "cp /srv/kuma-backup.db /app/data/kuma.db && rm -f /app/data/kuma.db-wal /app/data/kuma.db-shm && chown node:node /app/data/kuma.db"
+
+rm -f kuma-backup.db

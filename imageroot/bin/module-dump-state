@@ -1,0 +1,23 @@
+#!/bin/bash
+
+#
+# Copyright (C) 2026 Nethesis S.r.l.
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+
+set -e
+
+# A raw copy of a live WAL database can be inconsistent, so take a snapshot
+# with VACUUM INTO and back it up instead of kuma.db (see state-exclude.conf)
+dump_cmd="if [ -f /app/data/kuma.db ]; then rm -f /tmp/kuma-backup.db && sqlite3 /app/data/kuma.db \"VACUUM INTO '/tmp/kuma-backup.db';\" && cat /tmp/kuma-backup.db && rm -f /tmp/kuma-backup.db; fi"
+
+if [[ "$(podman inspect -f '{{.State.Running}}' uptime-kuma-app 2>/dev/null)" == "true" ]]; then
+    podman exec uptime-kuma-app sh -c "${dump_cmd}" > kuma-backup.db
+else
+    podman run --rm --entrypoint sh --volume uptime-kuma-data:/app/data:z "${UPTIME_KUMA_IMAGE}" -c "${dump_cmd}" > kuma-backup.db
+fi
+
+# No kuma.db means another database backend: nothing to dump
+if [[ ! -s kuma-backup.db ]]; then
+    rm -f kuma-backup.db
+fi
