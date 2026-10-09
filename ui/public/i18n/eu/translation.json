@@ -1,57 +1,98 @@
 {
-    "error": {
-        "403": "Eragiketa baimendu gabea",
-        "cannot_retrieve_installed_modules": "Ezin dira instalatutako moduluak berreskuratu",
-        "401": "Autentifikazio baliogabea",
-        "cannot_retrieve_module_info": "Ezin da moduluaren informazioa berreskuratu",
-        "generic_error": "Zerbait okertu da",
-        "error": "Errorea",
-        "network_timeout": "Sarearen denbora-muga",
-        "404": "Baliabidea ez da aurkitu",
-        "network_error": "Sare-errorea",
-        "validation_error": "Balioztatze-errorea"
-    },
-    "settings": {
-        "test_field": "Proba-eremua",
-        "configure_instance": "{instance} konfiguratu",
-        "save": "Gorde",
-        "title": "Ezarpenak"
-    },
-    "common": {
-        "required": "Beharrezkoa",
-        "work_in_progress": "Lanak martxan",
-        "processing": "Prozesatzen..."
-    },
-    "status": {
-        "created": "Sortuta",
-        "size": "Tamaina",
-        "name": "Izena",
-        "no_images": "Irudirik ez",
-        "app_volumes": "Aplikazioaren bolumena | Aplikazioen bolumenak",
-        "services": "Zerbitzua | Zerbitzuak",
-        "app_images": "Aplikazioaren irudia | Aplikazioen irudiak",
-        "no_services": "Zerbitzurik ez",
-        "app_instance": "Aplikazioaren instantzia",
-        "mount": "Muntatu",
-        "title": "Egoera",
-        "installation_node": "Instalazio-nodoa",
-        "node": "Nodoa",
-        "no_volumes": "Bolumenik ez"
-    },
-    "about": {
-        "title": "Honi buruz"
-    },
-    "action": {
-        "list-backup-repositories": "Babeskopien biltegiak ikusi",
-        "get-module-info": "Moduluaren informazioa berreskuratu",
-        "list-installed-modules": "Instalatutako moduluak ikusi",
-        "list-backups": "Babeskopiak ikusi",
-        "get-status": "Egoera berreskuratu",
-        "configure-module": "Modulua konfiguratu",
-        "get-configuration": "Konfigurazioa berreskuratu",
-        "get-name": "Izena berreskuratu"
-    },
-    "task": {
-        "cannot_create_task": "Ezin da zeregina {action} sortu"
-    }
+  "common": {
+    "required": "Beharrezkoa",
+    "work_in_progress": "Lanak martxan",
+    "processing": "Prozesatzen..."
+  },
+  "status": {
+    "title": "Egoera",
+    "app_instance": "Aplikazioaren instantzia",
+    "services": "Zerbitzua | Zerbitzuak",
+    "app_images": "Aplikazioaren irudia | Aplikazioen irudiak",
+    "app_volumes": "Aplikazioaren bolumena | Aplikazioen bolumenak",
+    "installation_node": "Instalazio-nodoa",
+    "node": "Nodoa",
+    "name": "Izena",
+    "size": "Tamaina",
+    "created": "Sortuta",
+    "mount": "Muntatu",
+    "no_services": "Zerbitzurik ez",
+    "no_images": "Irudirik ez",
+    "no_volumes": "Bolumenik ez",
+    "kuma_webapp": "Uptime Kuma web aplikazioa",
+    "not_configured": "Konfiguratu gabe",
+    "open_webapp": "Ireki Uptime Kuma",
+    "configure": "Konfiguratu",
+    "application": "Aplikazioa",
+    "restart_application": "Berrabiarazi aplikazioa",
+    "restart_module_warning": "Ziur zaude {name} berrabiarazi nahi duzula? Zerbitzua une batez ez da erabilgarri egongo berrabiaraztean.",
+    "go_to_node_details": "Joan nodoaren xehetasunetara",
+    "failed_services": "Huts egindako zerbitzuak",
+    "all_services_running": "Zerbitzu guztiak martxan daude",
+    "search_images": "Bilatu irudiak",
+    "search_volumes": "Bilatu bolumenak"
+  },
+  "settings": {
+    "title": "Ezarpenak",
+    "configure_instance": "{instance} konfiguratu",
+    "save": "Gorde",
+    "kuma_fqdn": "Uptime Kumaren ostalari-izena (FQDN)",
+    "lets_encrypt": "Eskatu Let's Encrypt ziurtagiria",
+    "enabled": "Gaituta",
+    "disabled": "Desgaituta",
+    "advanced": "Aurreratua",
+    "configuring": "Konfiguratzen",
+    "instance_configuration": "Konfiguratu Uptime Kuma",
+    "domain_already_used_in_traefik": "Domeinua dagoeneko erabiltzen da Traefik-en",
+    "host_pattern": "Domeinu-izen oso baliozkoa izan behar du",
+    "host_format": "Domeinu-izen oso baliozkoa izan behar du",
+    "admin_title": "Administratzaile kontua",
+    "admin_description": "Sortu Uptime Kumaren administratzailea.",
+    "admin_username": "Administratzailearen erabiltzaile-izena",
+    "admin_password": "Administratzailearen pasahitza",
+    "admin_password_confirm": "Berretsi administratzailearen pasahitza",
+    "admin_password_helper": "Gutxienez 8 karaktere, minuskula, maiuskula, zenbaki eta ikur batekin",
+    "admin_password_too_weak": "Pasahitza ahulegia da",
+    "admin_password_mismatch": "Pasahitzak ez datoz bat",
+    "smtp_enabled": "Bidali alertak klusterraren smarthost bidez",
+    "smtp_enabled_tooltip": "Uptime Kumak \"NethServer smarthost\" izeneko posta-jakinarazpen lehenetsia jasotzen du. Klusterraren smarthost ezarpenei jarraitzen die.",
+    "go_to_email_notifications": "Joan posta-jakinarazpenetara",
+    "smarthost_not_configured": "Ez dago smarthost-ik konfiguratuta",
+    "smarthost_not_configured_description": "Konfiguratu smarthost bat klusterraren posta-jakinarazpenetan Uptime Kumaren alertak posta bidez jasotzeko.",
+    "notification_emails": "Alerten hartzaileen helbide elektronikoak",
+    "notification_emails_helper": "Helbide elektroniko bat lerro bakoitzeko",
+    "invalid_email": "Helbide elektroniko baliogabea: {email}",
+    "admin_configured": "Administratzailea dagoeneko sortuta",
+    "admin_configured_description": "Aldatu administratzailearen erabiltzaile-izena eta pasahitza Uptime Kumaren web orrian."
+  },
+  "about": {
+    "title": "Honi buruz"
+  },
+  "task": {
+    "cannot_create_task": "Ezin da zeregina {action} sortu"
+  },
+  "action": {
+    "get-status": "Egoera berreskuratu",
+    "get-configuration": "Konfigurazioa berreskuratu",
+    "configure-module": "Modulua konfiguratu",
+    "get-module-info": "Moduluaren informazioa berreskuratu",
+    "get-name": "Izena berreskuratu",
+    "list-backup-repositories": "Babeskopien biltegiak ikusi",
+    "list-backups": "Babeskopiak ikusi",
+    "list-installed-modules": "Instalatutako moduluak ikusi",
+    "restart-module": "Berrabiarazi modulua"
+  },
+  "error": {
+    "error": "Errorea",
+    "generic_error": "Zerbait okertu da",
+    "validation_error": "Balioztatze-errorea",
+    "network_error": "Sare-errorea",
+    "network_timeout": "Sarearen denbora-muga",
+    "401": "Autentifikazio baliogabea",
+    "403": "Eragiketa baimendu gabea",
+    "404": "Baliabidea ez da aurkitu",
+    "cannot_retrieve_module_info": "Ezin da moduluaren informazioa berreskuratu",
+    "cannot_retrieve_installed_modules": "Ezin dira instalatutako moduluak berreskuratu",
+    "cannot_retrieve_configuration": "Ezin da konfigurazioa eskuratu"
+  }
 }

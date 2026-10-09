@@ -1,35 +1,98 @@
 {
-    "common": {
-        "required": "Obrigatório",
-        "work_in_progress": "Em progresso",
-        "processing": "Procesando..."
-    },
-    "status": {
-        "services": "Serviço | Serviços",
-        "app_instance": "Instância do aplicativo",
-        "title": "Estado"
-    },
-    "error": {
-        "403": "Operation not authorized",
-        "401": "Invalid authentication",
-        "generic_error": "Something went wrong",
-        "error": "Error",
-        "network_timeout": "Network timeout",
-        "404": "Resource not found",
-        "network_error": "Network error",
-        "validation_error": "Validation error"
-    },
-    "about": {
-        "title": "About"
-    },
-    "action": {
-        "list-backup-repositories": "List backup repositories",
-        "list-backups": "List backups"
-    },
-    "task": {
-        "cannot_create_task": "Cannot create task {action}"
-    },
-    "settings": {
-        "title": "Settings"
-    }
+  "common": {
+    "required": "Obrigatório",
+    "work_in_progress": "Em progresso",
+    "processing": "Procesando..."
+  },
+  "status": {
+    "title": "Estado",
+    "app_instance": "Instância do aplicativo",
+    "services": "Serviço | Serviços",
+    "app_images": "Imagem da aplicação | Imagens da aplicação",
+    "app_volumes": "Volume da aplicação | Volumes da aplicação",
+    "installation_node": "Nó de instalação",
+    "node": "Nó",
+    "name": "Nome",
+    "size": "Tamanho",
+    "created": "Criado",
+    "mount": "Montagem",
+    "no_services": "Nenhum serviço",
+    "no_images": "Nenhuma imagem",
+    "no_volumes": "Nenhum volume",
+    "kuma_webapp": "Aplicação web Uptime Kuma",
+    "not_configured": "Não configurado",
+    "open_webapp": "Abrir Uptime Kuma",
+    "configure": "Configurar",
+    "application": "Aplicação",
+    "restart_application": "Reiniciar aplicação",
+    "restart_module_warning": "Tem certeza de que deseja reiniciar {name}? O serviço ficará brevemente indisponível durante a reinicialização.",
+    "go_to_node_details": "Ir para os detalhes do nó",
+    "failed_services": "Serviços com falha",
+    "all_services_running": "Todos os serviços estão em execução",
+    "search_images": "Buscar imagens",
+    "search_volumes": "Buscar volumes"
+  },
+  "settings": {
+    "title": "Settings",
+    "configure_instance": "Configurar {instance}",
+    "save": "Salvar",
+    "kuma_fqdn": "Nome de host do Uptime Kuma (FQDN)",
+    "lets_encrypt": "Pedir certificado Let's Encrypt",
+    "enabled": "Ativado",
+    "disabled": "Desativado",
+    "advanced": "Avançado",
+    "configuring": "Configurando",
+    "instance_configuration": "Configurar Uptime Kuma",
+    "domain_already_used_in_traefik": "Domínio já utilizado no Traefik",
+    "host_pattern": "Deve ser um nome de domínio completo válido",
+    "host_format": "Deve ser um nome de domínio completo válido",
+    "admin_title": "Conta de administrador",
+    "admin_description": "Crie o administrador do Uptime Kuma.",
+    "admin_username": "Usuário do administrador",
+    "admin_password": "Senha do administrador",
+    "admin_password_confirm": "Confirmar senha do administrador",
+    "admin_password_helper": "Pelo menos 8 caracteres com minúscula, maiúscula, número e símbolo",
+    "admin_password_too_weak": "Senha muito fraca",
+    "admin_password_mismatch": "As senhas não coincidem",
+    "smtp_enabled": "Enviar alertas através do smarthost do cluster",
+    "smtp_enabled_tooltip": "O Uptime Kuma recebe uma notificação de e-mail padrão chamada \"NethServer smarthost\". Ela segue as configurações do smarthost do cluster.",
+    "go_to_email_notifications": "Ir para as notificações por e-mail",
+    "smarthost_not_configured": "Nenhum smarthost configurado",
+    "smarthost_not_configured_description": "Configure um smarthost nas notificações por e-mail do cluster para receber os alertas do Uptime Kuma por e-mail.",
+    "notification_emails": "E-mails dos destinatários dos alertas",
+    "notification_emails_helper": "Um endereço de e-mail por linha",
+    "invalid_email": "Endereço de e-mail inválido: {email}",
+    "admin_configured": "Administrador já criado",
+    "admin_configured_description": "Altere o usuário e a senha do administrador na página web do Uptime Kuma."
+  },
+  "about": {
+    "title": "About"
+  },
+  "task": {
+    "cannot_create_task": "Cannot create task {action}"
+  },
+  "action": {
+    "get-status": "Obter estado",
+    "get-configuration": "Obter configuração",
+    "configure-module": "Configurar módulo",
+    "get-module-info": "Obter informações do módulo",
+    "get-name": "Obter nome",
+    "list-backup-repositories": "List backup repositories",
+    "list-backups": "List backups",
+    "list-installed-modules": "Listar módulos instalados",
+    "restart-module": "Reiniciar módulo"
+  },
+  "error": {
+    "error": "Error",
+    "generic_error": "Something went wrong",
+    "validation_error": "Validation error",
+    "network_error": "Network error",
+    "network_timeout": "Network timeout",
+    "401": "Invalid authentication",
+    "403": "Operation not authorized",
+    "404": "Resource not found",
+    "cannot_retrieve_module_info": "Não é possível obter as informações do módulo",
+    "cannot_retrieve_installed_modules": "Não é possível obter os módulos instalados",
+    "cannot_retrieve_configuration": "Não é possível obter a configuração"
+  }
 }
