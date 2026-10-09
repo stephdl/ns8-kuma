@@ -1,0 +1,35 @@
+#
+# Copyright (C) 2022 Nethesis S.r.l.
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+
+[Unit]
+Description=Podman  kuma-app.service
+BindsTo=kuma.service
+Requires=kuma-mariadb.service
+After=kuma.service kuma-mariadb.service
+
+[Service]
+Environment=PODMAN_SYSTEMD_UNIT=%n
+EnvironmentFile=%E/state/environment
+WorkingDirectory=%E/state
+Restart=always
+TimeoutStopSec=70
+ExecStartPre=/bin/mkdir -p tmp
+ExecStartPre=/bin/rm -f %t/kuma-app.pid %t/kuma-app.ctr-id
+ExecStart=/usr/bin/podman run --conmon-pidfile %t/kuma-app.pid --cidfile %t/kuma-app.ctr-id \
+   --cgroups=no-conmon --pod-id-file %t/kuma.pod-id --replace -d --name kuma-app \
+   --volume kuma-data:/app/data:z \
+   --env-file kuma.env \
+   --env-file kuma-db.env \
+   --cap-add=NET_RAW \
+   ${UPTIME_KUMA_IMAGE}
+ExecStop=/usr/bin/podman stop --ignore --cidfile %t/kuma-app.ctr-id -t 10
+ExecReload=/usr/bin/podman kill -s HUP kuma-app
+SyslogIdentifier=%u
+ExecStopPost=/usr/bin/podman rm --ignore -f --cidfile %t/kuma-app.ctr-id
+PIDFile=%t/kuma-app.pid
+Type=forking
+
+[Install]
+WantedBy=default.target

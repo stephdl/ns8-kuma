@@ -5,4 +5,4 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 #
 
-rm -vf uptime-kuma.sql uptime-kuma.sql.tmp
+rm -vf kuma.sql kuma.sql.tmp

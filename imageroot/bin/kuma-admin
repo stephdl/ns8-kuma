@@ -56,7 +56,7 @@ def run(action, timeout, username="", password=""):
     })
     try:
         proc = subprocess.run(
-            ["podman", "exec", "-i", "-w", "/app", "uptime-kuma-app", "node", "-"],
+            ["podman", "exec", "-i", "-w", "/app", "kuma-app", "node", "-"],
             input=script, capture_output=True, text=True, timeout=timeout + 30,
         )
         return proc.returncode, json.loads(proc.stdout)

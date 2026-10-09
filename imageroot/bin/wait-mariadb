@@ -8,7 +8,7 @@
 # During its first start MariaDB runs a temporary server without TCP, so a
 # TCP query only succeeds once the final server accepts Uptime Kuma.
 for _ in $(seq 90); do
-    if podman exec uptime-kuma-mariadb sh -c 'MYSQL_PWD="${MARIADB_ROOT_PASSWORD}" exec mariadb -h 127.0.0.1 -uroot -e "SELECT 1"' >/dev/null 2>&1; then
+    if podman exec kuma-mariadb sh -c 'MYSQL_PWD="${MARIADB_ROOT_PASSWORD}" exec mariadb -h 127.0.0.1 -uroot -e "SELECT 1"' >/dev/null 2>&1; then
         exit 0
     fi
     sleep 2

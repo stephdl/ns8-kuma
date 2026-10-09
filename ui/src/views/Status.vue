@@ -48,7 +48,7 @@
           <!-- web application -->
           <NsInfoCard
             light
-            :title="$t('status.uptime-kuma_webapp')"
+            :title="$t('status.kuma_webapp')"
             :description="host ? host : $t('status.not_configured')"
             :icon="Wikis32"
             :loading="loading.getConfiguration"

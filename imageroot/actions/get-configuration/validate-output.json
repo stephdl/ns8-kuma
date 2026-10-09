@@ -1,11 +1,11 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "title": "Get uptime-kuma settings",
-    "$id": "http://nethserver.org/json-schema/task/input/uptime-kuma/get-configuration",
-    "description": "Get uptime-kuma settings",
+    "title": "Get kuma settings",
+    "$id": "http://nethserver.org/json-schema/task/input/kuma/get-configuration",
+    "description": "Get kuma settings",
     "examples": [
         {
-            "host": "uptime-kuma.domain.org",
+            "host": "kuma.domain.org",
             "lets_encrypt": true,
             "smarthost_available": true,
             "smtp_enabled": true,
@@ -27,7 +27,7 @@
     "properties": {
         "host": {
             "type": "string",
-            "description": "Host name for the application, like 'uptime-kuma.domain.org'",
+            "description": "Host name for the application, like 'kuma.domain.org'",
             "format": "idn-hostname"
         },
         "lets_encrypt": {

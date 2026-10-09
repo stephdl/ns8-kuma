@@ -10,7 +10,7 @@ set -e
 # Redirect any output to the journal (stderr)
 exec 1>&2
 
-if [[ ! -f uptime-kuma.sql ]]; then
+if [[ ! -f kuma.sql ]]; then
     exit 0
 fi
 
@@ -18,7 +18,7 @@ fi
 podman volume rm -f mariadb-data
 
 mkdir -p initdb.d
-mv -v uptime-kuma.sql initdb.d/
+mv -v kuma.sql initdb.d/
 # Stop the temporary server once the dump is loaded, so the container exits
 cat - >initdb.d/zz_restore.sh <<'EOS'
 docker_temp_server_stop

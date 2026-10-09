@@ -1,14 +1,12 @@
-# ns8-uptime-kuma
+# ns8-kuma
 
 Uptime Kuma – A Fancy Self-Hosted Monitoring Tool
 
 ## Install
 
-Install via Software Center by adding my [repository](https://repo.mrmarkuz.com)
+Install on CLI:
 
-Or on CLI:
-
-    add-module ghcr.io/nethserver/uptime-kuma:latest 1
+    add-module ghcr.io/stephdl/kuma:latest 1
 
 ## Configure
 
@@ -27,20 +25,20 @@ It follows the cluster smarthost settings: change them in NethServer, not in Upt
 
 Example:
 
-    api-cli run module/uptime-kuma1/configure-module --data '{"host": "kuma.example.org", "lets_encrypt": false, "admin_username": "admin", "admin_password": "Example,Pass1", "smtp_enabled": true, "notification_emails": ["admin@example.org", "ops@example.org"]}'
+    api-cli run module/kuma1/configure-module --data '{"host": "kuma.example.org", "lets_encrypt": false, "admin_username": "admin", "admin_password": "Example,Pass1", "smtp_enabled": true, "notification_emails": ["admin@example.org", "ops@example.org"]}'
 
 ## Uninstall
 
 The app can be uninstalled by using the Software Center or the CLI:
 
-    remove-module --no-preserve uptime-kuma1
+    remove-module --no-preserve kuma1
 
 ## Testing
 
 Test the module using the `test-module.sh` script:
 
 
-    ./test-module.sh <NODE_ADDR> ghcr.io/nethserver/uptime-kuma:latest
+    ./test-module.sh <NODE_ADDR> ghcr.io/stephdl/kuma:latest
 
 The tests are made using [Robot Framework](https://robotframework.org/)
 

@@ -24,8 +24,8 @@
         <cv-tile light>
           <cv-form @submit.prevent="configureModule">
             <cv-text-input
-              :label="$t('settings.uptime-kuma_fqdn')"
-              placeholder="uptime-kuma.example.org"
+              :label="$t('settings.kuma_fqdn')"
+              placeholder="kuma.example.org"
               v-model.trim="host"
               class="mg-bottom"
               :invalid-message="$t(error.host)"

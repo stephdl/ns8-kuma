@@ -13,7 +13,7 @@ os.umask(0o077)
 
 agent.write_envfile("database.env", {
     "MARIADB_ROOT_PASSWORD": secrets.token_hex(16),
-    "MARIADB_DATABASE": "uptime-kuma",
-    "MARIADB_USER": "uptime-kuma",
+    "MARIADB_DATABASE": "kuma",
+    "MARIADB_USER": "kuma",
     "MARIADB_PASSWORD": secrets.token_hex(16),
 })

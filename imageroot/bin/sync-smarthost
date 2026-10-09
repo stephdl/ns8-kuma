@@ -62,7 +62,7 @@ config = json.dumps({
     "smtpIgnoreTLSError": not smarthost["tls_verify"],
     "smtpUsername": smarthost["username"],
     "smtpPassword": smarthost["password"],
-    "smtpFrom": f"uptime-kuma@{domain}",
+    "smtpFrom": f"kuma@{domain}",
     "smtpTo": recipient,
 })
 

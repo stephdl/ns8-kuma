@@ -8,7 +8,7 @@ import subprocess
 
 def sql(query):
     """Run SQL on the Uptime Kuma database and return the raw output."""
-    cmd = ["podman", "exec", "-i", "uptime-kuma-mariadb", "sh", "-c",
+    cmd = ["podman", "exec", "-i", "kuma-mariadb", "sh", "-c",
            'MYSQL_PWD="${MARIADB_ROOT_PASSWORD}" exec mariadb -N -B -uroot "${MARIADB_DATABASE}"']
     proc = subprocess.run(cmd, input=query, capture_output=True, text=True)
     if proc.returncode != 0:
@@ -23,7 +23,7 @@ def text_literal(value):
 
 def admin_username():
     """Name of the Uptime Kuma admin, None if it does not exist or MariaDB is stopped."""
-    running = subprocess.run(["systemctl", "--user", "-q", "is-active", "uptime-kuma-mariadb.service"])
+    running = subprocess.run(["systemctl", "--user", "-q", "is-active", "kuma-mariadb.service"])
     if running.returncode != 0:
         return None
     try:
