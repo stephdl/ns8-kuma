@@ -16,6 +16,7 @@ WorkingDirectory=%E/state
 Restart=always
 TimeoutStopSec=70
 ExecStartPre=/bin/mkdir -p tmp
+ExecStartPre=runagent write-kuma-db-env
 ExecStartPre=/bin/rm -f %t/kuma-app.pid %t/kuma-app.ctr-id
 ExecStart=/usr/bin/podman run --conmon-pidfile %t/kuma-app.pid --cidfile %t/kuma-app.ctr-id \
    --cgroups=no-conmon --pod-id-file %t/kuma.pod-id --replace -d --name kuma-app \
