@@ -13,7 +13,21 @@ Or on CLI:
 ## Configure
 
 In the app settings at least the FQDN needs to be set.
-Browse to the FQDN, choose "Embedded MariaDB" for production or "SQLite" for small environments and create a user at the next step.
+
+Uptime Kuma stores its data in a MariaDB container managed by the module, so it does not ask for a database.
+SQLite and the embedded MariaDB of Uptime Kuma are not supported. Instances installed before this change start
+with an empty MariaDB database: their old data is not migrated.
+
+The first time, the settings page asks for the Uptime Kuma administrator user name and password.
+Once the administrator exists the fields are read only: change the password from the Uptime Kuma web page.
+
+If the cluster has a smarthost (Settings > Email notifications), enable "Send alerts through the cluster smarthost" and set one or more recipients.
+The module creates a default email notification named "NethServer smarthost" in Uptime Kuma and attaches it to all monitors.
+It follows the cluster smarthost settings: change them in NethServer, not in Uptime Kuma.
+
+Example:
+
+    api-cli run module/uptime-kuma1/configure-module --data '{"host": "kuma.example.org", "http2https": true, "lets_encrypt": false, "admin_username": "admin", "admin_password": "Example,Pass1", "smtp_enabled": true, "notification_emails": ["admin@example.org", "ops@example.org"]}'
 
 ## Uninstall
 
