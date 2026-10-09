@@ -41,7 +41,7 @@ smarthost = agent.get_smarthost_settings(rdb)
 recipient = ", ".join(e for e in os.getenv("NOTIFICATION_EMAILS", "").split(",") if e)
 wanted = os.getenv("SMTP_ENABLED") == "True" and smarthost["enabled"] and smarthost["host"] and recipient
 
-notification_id = sql(f"SELECT id FROM notification WHERE name = '{NAME}';")
+notification_id = sql(f"SELECT id FROM notification WHERE name = '{NAME}' ORDER BY id LIMIT 1;")
 
 if not wanted:
     # An inactive notification is still sent, so remove it with its monitor links
@@ -71,5 +71,5 @@ if notification_id:
 else:
     sql(f"INSERT INTO notification (name, active, user_id, is_default, config) VALUES ('{NAME}', 1, {int(user_id)}, 1, {text_literal(config)});")
     # A default notification only applies to new monitors, so attach the existing ones too
-    notification_id = sql(f"SELECT id FROM notification WHERE name = '{NAME}';")
+    notification_id = sql(f"SELECT id FROM notification WHERE name = '{NAME}' ORDER BY id DESC LIMIT 1;")
     sql(f"INSERT INTO monitor_notification (monitor_id, notification_id) SELECT id, {int(notification_id)} FROM monitor;")

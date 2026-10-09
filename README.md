@@ -27,7 +27,7 @@ It follows the cluster smarthost settings: change them in NethServer, not in Upt
 
 Example:
 
-    api-cli run module/uptime-kuma1/configure-module --data '{"host": "kuma.example.org", "http2https": true, "lets_encrypt": false, "admin_username": "admin", "admin_password": "Example,Pass1", "smtp_enabled": true, "notification_emails": ["admin@example.org", "ops@example.org"]}'
+    api-cli run module/uptime-kuma1/configure-module --data '{"host": "kuma.example.org", "lets_encrypt": false, "admin_username": "admin", "admin_password": "Example,Pass1", "smtp_enabled": true, "notification_emails": ["admin@example.org", "ops@example.org"]}'
 
 ## Uninstall
 

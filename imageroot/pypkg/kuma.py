@@ -22,11 +22,17 @@ def text_literal(value):
 
 
 def admin_username():
-    """Name of the Uptime Kuma admin, None if it does not exist or the database is not ready."""
+    """Name of the Uptime Kuma admin, None if it does not exist or MariaDB is stopped."""
+    running = subprocess.run(["systemctl", "--user", "-q", "is-active", "uptime-kuma-mariadb.service"])
+    if running.returncode != 0:
+        return None
     try:
         return sql("SELECT username FROM user ORDER BY id LIMIT 1;") or None
-    except Exception:
-        return None
+    except RuntimeError as ex:
+        # Uptime Kuma creates its tables on first start, after MariaDB is up
+        if "doesn't exist" in str(ex):
+            return None
+        raise
 
 
 def need_setup(timeout=5):

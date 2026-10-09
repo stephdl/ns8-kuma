@@ -569,7 +569,6 @@ export default {
           data: {
             host: this.host,
             lets_encrypt: this.isLetsEncryptEnabled,
-            http2https: true,
             smtp_enabled: this.isSmtpEnabled,
             notification_emails: this.isSmtpEnabled ? this.emailList() : [],
             ...(!this.isAdminConfigured && this.adminPassword

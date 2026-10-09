@@ -9,6 +9,7 @@ set -e
 
 exec 1>&2
 
-if systemctl --user -q is-active uptime-kuma-app.service; then
+# sync-smarthost waits for the server, and skips if the module is stopped
+if systemctl --user -q is-enabled uptime-kuma.service; then
     sync-smarthost
 fi
