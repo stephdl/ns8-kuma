@@ -14,6 +14,24 @@ images=()
 repobase="${REPOBASE:-ghcr.io/stephdl}"
 # Configure the image name
 reponame="kuma"
+kuma_image="docker.io/louislam/uptime-kuma:2.5.6"
+
+# Extract the upstream version from the image tag, to set it in the metadata
+kuma_upstream_version="${kuma_image##*:}"
+metadata_file="ui/public/metadata.json"
+metadata_backup=$(mktemp)
+
+cleanup() {
+    cp "${metadata_backup}" "${metadata_file}"
+    rm -f "${metadata_backup}"
+}
+
+cp "${metadata_file}" "${metadata_backup}"
+trap cleanup EXIT
+
+jq --arg v "${kuma_upstream_version}" \
+   '.upstream_name |= gsub("version set automatically"; $v)' \
+   "${metadata_file}" > "${metadata_file}.tmp" && mv "${metadata_file}.tmp" "${metadata_file}"
 
 # Create a new empty container image
 container=$(buildah from scratch)
@@ -40,7 +58,7 @@ buildah config --entrypoint=/ \
     --label="org.nethserver.tcp-ports-demand=1" \
     --label="org.nethserver.rootfull=0" \
 	--label="org.nethserver.min-core=3.12.4-0" \
-    --label="org.nethserver.images=docker.io/louislam/uptime-kuma:2.5.6 docker.io/library/mariadb:11.4.13" \
+    --label="org.nethserver.images=${kuma_image} docker.io/library/mariadb:11.4.13" \
     "${container}"
 # Commit the image
 buildah commit "${container}" "${repobase}/${reponame}"

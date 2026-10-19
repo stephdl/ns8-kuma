@@ -1,5 +1,6 @@
 {
   "name": "Uptime Kuma",
+  "upstream_name": "Uptime Kuma (version set automatically)",
   "description": {
     "en": "Self-hosted monitoring for websites, services and certificates, with email alerts.",
     "fr": "Supervision auto-hébergée des sites web, services et certificats, avec alertes par email.",
