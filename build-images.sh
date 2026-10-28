@@ -39,7 +39,7 @@ container=$(buildah from scratch)
 # Reuse existing nodebuilder-kuma container, to speed up builds
 if ! buildah containers --format "{{.ContainerName}}" | grep -q nodebuilder-kuma; then
     echo "Pulling NodeJS runtime..."
-    buildah from --name nodebuilder-kuma -v "${PWD}:/usr/src:Z" docker.io/library/node:24-slim
+    buildah from --name nodebuilder-kuma -v "${PWD}:/usr/src:Z" docker.io/library/node:26-slim
 fi
 
 echo "Build static UI files with node..."
