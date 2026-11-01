@@ -14,7 +14,7 @@ images=()
 repobase="${REPOBASE:-ghcr.io/stephdl}"
 # Configure the image name
 reponame="kuma"
-kuma_image="docker.io/louislam/uptime-kuma:2.5.7"
+kuma_image="docker.io/louislam/uptime-kuma:2.5.8"
 
 # Extract the upstream version from the image tag, to set it in the metadata
 kuma_upstream_version="${kuma_image##*:}"
