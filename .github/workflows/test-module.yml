@@ -31,5 +31,5 @@ jobs:
       image_name: kuma
       ui_tests_strategy: ${{ github.event.inputs.ui_tests == 'true' && 'always' || 'on_renovate_ui_change' }}
       debug_shell: ${{ github.event.inputs.debug_shell == 'true' }}
-      # kuma is not published in a Software Center repository yet, so there is no stable release to update from
-      scenarios: '["install"]'
+      # update installs the release of the stephdl forge, configures it, then upgrades it to the image under test
+      scenarios: '["install","update"]'
