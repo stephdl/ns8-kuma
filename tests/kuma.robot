@@ -7,8 +7,17 @@ ${ADMIN_USER}        admin
 ${ADMIN_PASSWORD}    Nethesis,1234
 ${kuma_host}         kuma.dom.test
 ${kuma_password}     Kuma,Test-1234
+# install tests the image on a clean node. update starts from the release of the stephdl forge, then upgrades it below.
+${SCENARIO}          install
 
 *** Keywords ***
+Enable the stephdl forge
+    # The module is published there, not in the default NS8 repositories
+    ${rc} =    Execute Command
+    ...    api-cli run add-repository --data '{"name":"stephdl","url":"https://forge.de-labrusse.fr/ns8/updates/","status":true}'
+    ...    return_rc=True  return_stdout=False
+    Should Be Equal As Integers    ${rc}  0
+
 Login to cluster-admin
     New Page    https://${NODE_ADDR}/cluster-admin/
     Fill Text    text="Username"    ${ADMIN_USER}
@@ -37,7 +46,13 @@ Uptime Kuma answers
 
 *** Test Cases ***
 Check if kuma is installed correctly
-    ${output}  ${rc} =    Execute Command    add-module ${IMAGE_URL} 1
+    IF    '${SCENARIO}' == 'update'
+        Enable the stephdl forge
+        ${image} =    Set Variable    kuma
+    ELSE
+        ${image} =    Set Variable    ${IMAGE_URL}
+    END
+    ${output}  ${rc} =    Execute Command    add-module ${image} 1
     ...    return_rc=True
     Should Be Equal As Integers    ${rc}  0
     &{output} =    Evaluate    ${output}
@@ -60,6 +75,13 @@ Check a weak admin password is rejected
 Check if kuma can be configured
     Run task    module/${module_id}/configure-module
     ...    {"host":"${kuma_host}","lets_encrypt":false,"admin_username":"admin","admin_password":"${kuma_password}"}
+    ${config} =    Run task    module/${module_id}/get-configuration    {}
+    Should Be Equal    ${config['host']}    ${kuma_host}
+    Should Be Equal    ${config['admin_username']}    admin
+
+Check if kuma updates to the image under test
+    Skip If    '${SCENARIO}' != 'update'    scenario is ${SCENARIO}, nothing to update
+    Run task    update-module    {"force":true,"module_url":"${IMAGE_URL}","instances":["${module_id}"]}    decode_json=${FALSE}
     ${config} =    Run task    module/${module_id}/get-configuration    {}
     Should Be Equal    ${config['host']}    ${kuma_host}
     Should Be Equal    ${config['admin_username']}    admin
