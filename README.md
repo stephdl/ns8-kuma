@@ -119,7 +119,7 @@ To run it against a test node, use the shared runner of ns8-github-actions:
 ## UI development
 
 The UI is built with Vue 2, ns8-ui-lib 2 and yarn 4 (pinned in `ui/package.json`, enabled with corepack).
-`build-images.sh` builds it in a `node:24-slim` container.
+`build-images.sh` builds it in a `node:26-slim` container, with corepack installed from npm.
 
 ## UI translation
 
