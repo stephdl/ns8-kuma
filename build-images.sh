@@ -14,7 +14,7 @@ images=()
 repobase="${REPOBASE:-ghcr.io/stephdl}"
 # Configure the image name
 reponame="kuma"
-kuma_image="docker.io/louislam/uptime-kuma:2.5.9"
+kuma_image="docker.io/louislam/uptime-kuma:2.5.11"
 # Node.js 25+ no longer ships Corepack, install it from npm
 # renovate: datasource=npm packageName=corepack
 corepack_version=0.36.0
